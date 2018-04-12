@@ -4,8 +4,8 @@
 # if (!require("devtools")) install.packages("devtools")
 # devtools::install_github('hivbackcalc/package1.0/HIVBackCalc', 
 #                          build_vignettes=TRUE)
-# library(HIVBackCalc)
-# library(ggplot2)
+library(HIVBackCalc)
+library(ggplot2)
 
 rm(list=ls())
 
@@ -14,7 +14,7 @@ lag <- 50
 
 # importing the distribution of time from (Latent TB) infection to diagnosis (Active TB) 
 library(xlsx)
-pids_source <- read.xlsx2("~/Box Sync/CAPE - LTBI/Data/TB Data.xlsx", sheetIndex = "To R", startRow = 1,endRow = lag+1, colIndex = 2:4)
+pids_source <- read.xlsx2("TB Data.xlsx", sheetIndex = "To R", startRow = 1,endRow = lag+1, colIndex = 2:4)
 pids_source[,1]<-as.numeric(paste(pids_source[,1]))
 pids_source[,2]<-as.numeric(paste(pids_source[,2]))
 pids_source[,3]<-as.numeric(paste(pids_source[,3]))
@@ -30,7 +30,7 @@ pids <- pids_source[,3] / sum(pids_source[,3])  # use for UL Est.
 # US 3,California	15, Alameda	8, Los Angeles	9, Orange	10, Sacramento	11, San Diego	12, San Francisco	13, Santa Clara	14
 # California Non-US born 17, California US born 18
 AreaCode<-3
-counts_source <- read.xlsx2("~/Box Sync/CAPE - LTBI/Data/TB Data.xlsx", sheetIndex = "Reported TB Cases", startRow = 1,endRow = 25, colIndex = AreaCode)
+counts_source <- read.xlsx2("TB Data.xlsx", sheetIndex = "Reported TB Cases", startRow = 1,endRow = 25, colIndex = AreaCode)
 
 # add 50 empty cells to the beginning of reported cases / required for calculation
 counts <- c(rep(NA, 50), as.numeric(paste(as.vector(counts_source[,1]))))
@@ -127,7 +127,7 @@ BackLTBI
 
 # Import Mortality Rate and Popualtion
 library(xlsx)
-PopDeaths <- read.xlsx2("~/Box Sync/CAPE - LTBI/Data/TB Data.xlsx", sheetIndex = "Pop Deaths", startRow = 1,endRow = 13, colIndex = 8:13)
+PopDeaths <- read.xlsx2("TB Data.xlsx", sheetIndex = "Pop Deaths", startRow = 1,endRow = 13, colIndex = 8:13)
 DeathRate<-as.numeric(paste(PopDeaths$DeathRate[which(PopDeaths$AreaCode==AreaCode)]))
 Pop<-as.numeric(paste(PopDeaths$Pop[which(PopDeaths$AreaCode==AreaCode)]))
 Pop6plus<-as.numeric(paste(PopDeaths$Pop6plus[which(PopDeaths$AreaCode==AreaCode)]))
@@ -166,8 +166,6 @@ Prv_Output3<-data.frame(Output="Prevalence of LTBI among Age 6+ in 2016","Area C
 
 Prv_Output<-rbind(Prv_Output,Prv_Output2,Prv_Output3)
 
-# change working directory
-setwd("~/Box Sync/CAPE - LTBI/R")
 
 # save the graph
 pdf("BackLTBI.pdf")
