@@ -3,13 +3,13 @@ rm(list = ls()) #not great to do this
 # Use "AreaCode<-3" for U.S. TB data / Use "AreaCode<-15" for CA TB data
 # US 3,California	15, Alameda	8, Los Angeles	9, Orange	10, Sacramento	11, San Diego	12, San Francisco	13, Santa Clara	14
 # California Non-US born 17, California US born 18
-AreaCode <- 8
+AreaCode <- 3
 
 # Granularity of diagnosis counts in years.
 diagInterval  <- 1
 
 # Maximum number of years to active
-lag <- 150
+lag <- 85
 
 source("death_adjust.R")
 # if (!require("devtools")) install.packages("devtools")
@@ -93,7 +93,7 @@ counts_source <-
 
 # add 50 empty cells to the beginning of reported cases / required for calculation
 counts <-
-  c(rep(NA, 50), as.numeric(paste(as.vector(counts_source[, 1]))))
+  c(rep(NA, 60), as.numeric(paste(as.vector(counts_source[, 1]))))
 
 names(counts) <- 2017 - length(counts):1
 
