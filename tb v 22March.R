@@ -110,7 +110,8 @@ for (K in 1:3) {
   
   # probability that individual becomes active i years after infection and hasn't died during that period.
   lagp <- pids_source[, K]
-  lagp[(length(lagp)+1):85] <- 0
+  if(length(lagp) < 85)
+    lagp[(length(lagp)+1):85] <- 0
   lagp <- adjust_lag_prob(lagp, pop, prob_die)
   pactive_before_die[K] <- sum(lagp)
   
